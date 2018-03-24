@@ -1,7 +1,6 @@
 package com.hyjoy.mq;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQTextMessage;
 
 import javax.jms.*;
 
@@ -26,16 +25,17 @@ public class Listener {
 
         // 第四步： 通过Session穿件Destination对象，指的是一个客户端用来指定生成消息和消费消息来源的对象
         Destination destination = session.createQueue("first");
-
         MessageConsumer consumer = session.createConsumer(destination);
 
         while (true) {
             Message message = consumer.receive();
+//            message.acknowledge(); // 签收，针对Session 的手动签收 CLIENT_ACKNOWLEDGE
             if (message instanceof TextMessage) {
                 System.out.println(((TextMessage) message).getText());
             }
         }
 
-
+//        consumer.close();
+//        connection.close();
     }
 }
